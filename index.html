@@ -16,7 +16,11 @@
   <meta name="twitter:title" content="broulyy">
   <meta name="twitter:description" content="Личная страница broulyy">
   <meta name="twitter:image" content="assets/embed-image.png">
-  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  <!-- Favicons: use ava.png for site icon; keep favicon.ico as fallback -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/ava.png">
+  <link rel="shortcut icon" href="assets/ava.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/ava.png">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/react-h5-audio-player@3.6.0/dist/styles.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Raleway&display=swap" rel="stylesheet">
@@ -56,9 +60,13 @@
       perspective: 1000px;
       transition: box-shadow 0.3s ease;
       position: relative;
-      background: linear-gradient(45deg, #1a1a1a, #000000);
+      background: linear-gradient(135deg, rgba(18,18,18,0.45), rgba(0,0,0,0.35));
       overflow: hidden;
       border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .bio-container:hover {
       box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
@@ -124,10 +132,58 @@
       filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
     }
     .gradient-player {
-      background: linear-gradient(45deg, #ff0000, #000000);
-      background-size: 200% 200%;
-      animation: gradientShift 5s ease infinite;
+      /* softer, modern glassy background */
+      background: linear-gradient(180deg, rgba(255,0,0,0.14), rgba(0,0,0,0.24));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       border-radius: 0.75rem;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+    /* player layout tweaks */
+    .rhap_container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    #trackCoverImage {
+      width: 84px;
+      height: 84px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      transition: transform 220ms ease;
+    }
+    #trackCoverImage:hover { transform: translateY(-4px) scale(1.02); }
+    .track-title {
+      font-family: 'Creepster', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rhap_main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .rhap_progress-section {
+      margin-top: 2px;
+    }
+    .rhap_controls-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
     @keyframes gradientShift {
       0% { background-position: 0% 0%; }
@@ -146,14 +202,27 @@
       position: relative;
       display: inline-block;
       font-family: 'Creepster', sans-serif;
-      background: linear-gradient(45deg, #ffffff, #000000);
+      /* richer gradient with warm red highlight */
+      background: linear-gradient(90deg, #ff6b6b 0%, #ffffff 45%, #ffdede 60%);
+      background-clip: text;
       -webkit-background-clip: text;
+      color: transparent; /* fallback */
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-      animation: pulseText 1.5s infinite;
+      text-shadow: 0 6px 18px rgba(255, 100, 100, 0.12), 0 0 12px rgba(0,0,0,0.6);
+      /* subtle stroked outline for readability */
+      -webkit-text-stroke: 0.9px rgba(255, 255, 255, 0.75);
+      text-transform: none;
+      letter-spacing: 1px;
+      animation: bloodTitleFloat 4s ease-in-out infinite;
       font-size: 2rem;
       line-height: 1;
+      transition: transform 180ms ease, text-shadow 180ms ease;
+    }
+    .blood-drip-text:hover { transform: translateY(-3px) scale(1.02); text-shadow: 0 10px 30px rgba(255,80,80,0.25); }
+    @keyframes bloodTitleFloat {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
     }
     .blood-drip-text::before {
       content: '';
@@ -199,15 +268,25 @@
       }
     }
     .haunted-views {
-      color: white;
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-      animation: pulseText 1.5s infinite;
-      font-size: 1rem;
-      padding: 2px 6px;
-      border-radius: 4px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 6px 10px;
+      border-radius: 999px;
       position: relative;
       z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
+    .haunted-views:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.7); }
+    .haunted-views .eye { font-size: 1.05rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
     @keyframes pulseText {
       0% { text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); }
       50% { text-shadow: 0 0 10px rgba(0, 0, 0, 1); }
@@ -232,32 +311,35 @@
     }
     .avatar-wrapper {
       position: relative;
-      width: 140px;
-      height: 140px;
+      width: 98px; /* 30% smaller than 140 */
+      height: 98px;
       animation: pulse 2s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* clip to circular wrapper so image stays inside */
+      border-radius: 50%; /* wrapper circular */
     }
     #avatarImage {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      image-rendering: auto;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .avatar-frame {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('assets/ramka.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      pointer-events: none;
+      border-radius: 50%;
+      object-fit: contain; /* show whole image without cropping */
+      image-rendering: auto;
+      position: relative;
+  transform-origin: center center;
+  transform: scaleY(1.25); /* stretch vertically by 25% total */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+    }
+    .avatar-frame {
+      display: none !important; /* force hide the decorative frame */
+    }
+
+    /* ensure no pseudo-element around avatar-wrapper remains */
+    .avatar-wrapper::before,
+    .avatar-wrapper::after {
+      display: none !important;
+      content: none !important;
     }
     #viewCount {
       color: white;
@@ -293,23 +375,85 @@
       display: block;
     }
     .osint-box {
-      display: inline-block;
-      padding: 4px 8px;
-      background: linear-gradient(45deg, #ff0000, #000000);
-      background-size: 200% 200%;
-      animation: gradientShift 5s ease infinite;
-      border-radius: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: linear-gradient(135deg, rgba(255,75,75,0.18), rgba(255,140,140,0.08));
+      border-radius: 12px;
       color: white;
-      font-size: 0.875rem;
+      font-size: 0.95rem;
       line-height: 1;
-      transition: transform 0.3s ease;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
     .osint-box:hover {
-      transform: scale(1.2);
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    }
+    /* prettier info lines (icon + text) */
+    .info-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.95rem;
+      color: #fff;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .info-line .info-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      padding: 2px;
+      flex: 0 0 20px;
     }
     #bannerImage {
       position: relative;
       z-index: 0;
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+      /* lighter inset to imply depth without harsh edge */
+      box-shadow: inset 0 -6px 14px rgba(0,0,0,0.22);
+      transition: box-shadow 200ms ease;
+    }
+    /* soft bottom fade so banner blends into card background */
+    .banner-wrapper::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 60px; /* more pronounced fade so it's clearly visible */
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(18,18,18,0.12) 40%, rgba(18,18,18,0.85) 100%);
+      border-bottom-left-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+      z-index: 6; /* sit above overlay */
+      opacity: 1;
+    }
+    .banner-wrapper { position: relative; }
+    /* stronger CSS overlay to blend (overrides inline styles) */
+    .banner-overlay {
+      position: absolute !important;
+      inset: 0 !important;
+      pointer-events: none !important;
+      background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.12)) !important; /* lighter overlay */
+      border-top-left-radius: 0.75rem !important;
+      border-top-right-radius: 0.75rem !important;
+      z-index: 2 !important;
     }
     #trackCoverImage {
       transition: transform 0.3s ease;
@@ -319,15 +463,79 @@
     }
     .track-title {
       font-family: 'Creepster', sans-serif;
-      background: linear-gradient(45deg, #ff0000, #ffffff);
+      font-weight: 700;
+      text-transform: uppercase;
+      /* responsive, larger and balanced size */
+      font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+      letter-spacing: 1.5px;
+      line-height: 1.05;
+      display: inline-block;
+      vertical-align: middle;
+      padding-right: 6px;
+      /* stronger contrast gradient */
+      background: linear-gradient(90deg, #ff9a9a 0%, #ff6161 40%, #ffffff 100%);
+      background-clip: text;
       -webkit-background-clip: text;
+      color: transparent;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 12px rgba(255, 0, 0, 0.7);
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-      animation: pulseText 1.5s infinite;
-      font-size: 1.5rem;
-      line-height: 1;
+      /* clearer glow + slight inset dark for contrast */
+      text-shadow: 0 8px 22px rgba(255, 80, 80, 0.14), 0 1px 0 rgba(0,0,0,0.6);
+      -webkit-text-stroke: 0.7px rgba(255,255,255,0.7);
+      transition: transform 180ms ease, filter 180ms ease, text-shadow 180ms ease;
     }
+    .track-title:hover { transform: translateY(-3px) scale(1.02); filter: drop-shadow(0 10px 26px rgba(255,90,90,0.18)); text-shadow: 0 12px 32px rgba(255,90,90,0.2); }
+
+    /* New two-line track title component */
+    .track-title-wrapper {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-start;
+      justify-content: center;
+      min-width: 0;
+    }
+    .track-title-main {
+      font-family: 'Creepster', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: clamp(1.25rem, 3.2vw, 2rem);
+      letter-spacing: 2px;
+      line-height: 1;
+      background: linear-gradient(90deg, #ffd3d3 0%, #ff6b6b 45%, #ffffff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 0.9px rgba(255,255,255,0.85);
+      text-shadow: 0 10px 30px rgba(255,80,80,0.14);
+      transform-origin: left center;
+      transition: transform 220ms ease, text-shadow 220ms ease;
+    }
+    .track-title-sub {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      text-transform: none;
+      font-size: clamp(0.85rem, 1.6vw, 1rem);
+      color: rgba(255,255,255,0.9);
+      opacity: 0.95;
+      letter-spacing: 0.6px;
+      margin-top: -2px;
+      position: relative;
+    }
+    /* animated underline that grows on hover */
+    .track-title-wrapper::after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 36px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,80,80,0.9));
+      border-radius: 999px;
+      margin-top: 6px;
+      transition: width 260ms cubic-bezier(.2,.9,.2,1), background 260ms ease, transform 260ms ease;
+      transform-origin: left center;
+    }
+    .track-title-wrapper:hover .track-title-main { transform: translateY(-4px) scale(1.02); text-shadow: 0 16px 42px rgba(255,80,80,0.2); }
+    .track-title-wrapper:hover::after { width: 100%; background: linear-gradient(90deg, rgba(255,140,140,0.9), rgba(255,60,60,1)); }
     .custom-play-pause-button {
       background: rgba(139, 0, 0, 0.8);
       border: none;
@@ -347,6 +555,35 @@
       fill: white;
       filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
     }
+    /* Label badges for small icons with text */
+    .label-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: white;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+    .label-badge.compact { gap: 8px; padding: 4px 6px; border-radius: 999px; font-size: 0.85rem; }
+    .label-badge .badge-icon { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:6px; background: rgba(255,255,255,0.04); flex:0 0 22px; }
+    .label-badge .badge-icon svg { display:block; }
+    .label-badge .badge-label { display:inline-block; margin-left:4px; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.6px; }
+    .label-badge svg { flex: 0 0 auto; }
+    .label-badge span { display: inline-block; line-height: 1; }
+    .hunted-badge { background: linear-gradient(90deg, rgba(255,40,40,0.12), rgba(255,20,20,0.06)); }
+    .hunted-badge .badge-icon { background: linear-gradient(180deg,#ff5252,#ff2d2d); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+    .hunted-badge .badge-icon svg { color: #fff; }
+    .osint-badge { background: rgba(255,255,255,0.02); }
+    .osint-badge .badge-icon { background: rgba(255,255,255,0.04); }
+    .osint-badge .badge-icon svg { stroke: #fff; color: #fff; }
+    .group:hover .label-badge { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.65); }
     .bio-container::before {
       content: '';
       position: absolute;
@@ -354,9 +591,9 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('https://i.pinimg.com/originals/1e/f7/cb/1ef7cb22a6c0a543d8e05ef0e254509c.gif') no-repeat center;
+      background: url('assets/mops.png') no-repeat center;
       background-size: cover;
-      opacity: 0.6;
+      opacity: 0.28;
       z-index: -1;
       animation: smokeFade 10s infinite ease-in-out;
     }
@@ -371,6 +608,51 @@
     #backgroundVideo.visible {
       display: block;
     }
+    /* Сделать фон карточки полупрозрачным (40%) — внутренний слой тоже прозрачный */
+    .bio-container > .bg-black.bg-opacity-80.page-enter {
+      background: rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Стили плеера: более красивый прогресс-бар и таймер */
+    .rhap_progress-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    #progress {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,0,0,0.9) 0%, rgba(255,0,0,0.4) 50%, rgba(0,0,0,0.2) 50%);
+      outline: none;
+      flex: 1;
+    }
+    #progress::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255,0,0,0.8);
+      cursor: pointer;
+      border: 2px solid rgba(0,0,0,0.4);
+    }
+    #progress::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255,0,0,0.8);
+      cursor: pointer;
+      border: 2px solid rgba(0,0,0,0.4);
+    }
+    .rhap_time {
+      font-size: 0.9rem;
+      min-width: 48px;
+      text-align: center;
+    }
   </style>
 </head>
 <body class="bg-black text-white font-sans">
@@ -379,10 +661,40 @@
   </div>
 
   <div id="mainContent">
-    <video id="backgroundVideo" loop muted playsinline class="fixed top-0 left-0 w-full h-full object-cover z-[-1]" style="opacity: 1; transform: scale(1.05);">
-      <source src="assets/zadniy.mp4" type="video/mp4">
-      Ваш браузер не поддерживает видео.
-    </video>
+    <style>
+      /* Robust full-bleed background video wrapper to guarantee no black bars */
+      .bg-video-wrap {
+        position: fixed;
+        inset: 0; /* top:0; right:0; bottom:0; left:0 */
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1; /* keep behind content */
+        pointer-events: none;
+        background: transparent;
+      }
+      .bg-video-wrap video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100% !important;
+        min-height: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        background: transparent;
+        display: block;
+      }
+      /* hide native controls if any browser shows them */
+      .bg-video-wrap video::-webkit-media-controls { display: none !important; }
+    </style>
+
+    <div class="bg-video-wrap">
+      <video id="backgroundVideo" autoplay loop muted playsinline preload="auto" tabindex="-1" aria-hidden="true">
+        <source src="assets/zadniy.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+      </video>
+    </div>
 
     <div id="startButton" class="fixed inset-0 flex items-center justify-center z-10">
       <button onclick="startBio()" class="text-4xl font-bold cursor-pointer" style="font-family: 'Creepster', sans-serif;">
@@ -396,7 +708,10 @@
           <div class="bio-container">
             <div class="bg-black bg-opacity-80 page-enter">
               <div class="relative">
-                <img id="bannerImage" src="https://i.pinimg.com/originals/bb/b9/2c/bbb92c670afa1e67601c0994ff3957d5.jpg" alt="Баннер" class="w-full h-48 object-cover">
+                <div class="banner-wrapper" style="position:relative;">
+                  <img id="bannerImage" src="https://i.pinimg.com/originals/bb/b9/2c/bbb92c670afa1e67601c0994ff3957d5.jpg" alt="Баннер" class="w-full h-48 object-cover rounded-t-lg">
+                  <div class="banner-overlay" style="position:absolute;inset:0;pointer-events:none;border-top-left-radius:0.75rem;border-top-right-radius:0.75rem;"></div>
+                </div>
                 <div class="absolute top-2 right-2 flex items-center space-x-2">
                   <div class="group relative">
                     <span class="haunted-views flex items-center space-x-1">
@@ -412,7 +727,6 @@
                 <div class="relative flex items-center space-x-4 -mt-24 z-50">
                   <div class="avatar-wrapper">
                     <img id="avatarImage" src="assets/ava.png" alt="Аватар" loading="eager">
-                    <div class="avatar-frame"></div>
                   </div>
                   <div>
                     <div class="flex items-center">
@@ -423,33 +737,29 @@
                       </div>
                     </div>
                     <div class="flex space-x-2 mt-1">
-                      <div class="group relative">
-                        <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 0l3 9h9l-7 5.5 3 9-7-5.5-7 5.5 3-9-7-5.5h9z"/>
-                        </svg>
-                        <div class="absolute -top-8 bg-black text-white text-xs p-2 rounded opacity-0 group-hover:opacity-100 transition">Hunted</div>
-                      </div>
-                      <div class="group relative">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
-                        <div class="absolute -top-8 bg-black text-white text-xs p-2 rounded opacity-0 group-hover:opacity-100 transition">Osint</div>
-                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="flex items-center space-x-2 mt-4 text-sm">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
-                  </svg>
-                  <p>Russia, ??</p>
+                  <div class="info-line">
+                    <div class="info-icon">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+                      </svg>
+                    </div>
+                    <div>Russia, ??</div>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2 mt-2 text-sm">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                  </svg>
-                  <p>В OSINT: <span id="osintDays">392</span> дней</p>
+                  <div class="info-line">
+                    <div class="info-icon">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                      </svg>
+                    </div>
+                    <div>В osint: <span id="osintDays">457</span> дней.</div>
+                  </div>
                 </div>
 
                 <div class="flex flex-wrap gap-4 mt-6 items-center">
@@ -467,21 +777,30 @@
                     <img src="assets/discord.png" class="w-8 h-8" alt="Discord">
                     <div class="absolute -top-8 bg-black text-white text-xs p-2 rounded opacity-0 group-hover:opacity-100 transition">@broulyy</div>
                   </a>
-                  <div class="osint-box">
-                    #Osint
+                  <div class="osint-box" id="shzpic">
+                    <div style="display:inline-flex;align-items:center;gap:8px;">
+                      <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.06);">
+                        <!-- small lightning icon -->
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="#fff"/></svg>
+                      </span>
+                      <strong style="font-weight:700;letter-spacing:0.4px;">#shzpic</strong>
+                    </div>
                   </div>
                 </div>
 
                 <div class="mt-6 p-4 gradient-player rounded-lg flex items-center space-x-4">
-                  <img id="trackCoverImage" src="assets/track.png" alt="Обложка трека" class="w-20 h-20 rounded-lg">
+                  <img id="trackCoverImage" src="https://i1.sndcdn.com/artworks-yGJzL70xk4lrtLMb-py6ksQ-t200x200.jpg" alt="Обложка трека" class="w-20 h-20 rounded-lg">
                   <div class="rhap_container rhap_loop--on w-full">
                     <audio id="audioPlayer" src="assets/pesnia.mp3" loop preload="auto"></audio>
                     <div class="rhap_header">
-                      <div class="track-title line-clamp-1 break-all">GHOST MOUNTAIN - PAIN</div>
+                      <!-- Redesigned track title: main title + subtitle for better visuals -->
+                      <div class="track-title-wrapper">
+                        <div class="track-title-main" aria-hidden="true">Buckshot</div>
+                        <div class="track-title-sub">Over The Hills</div>
+                      </div>
                     </div>
                     <div class="rhap_main rhap_stacked">
                       <div class="rhap_progress-section">
-                        <div id="rhap_current-time" class="rhap_time"></div>
                         <input type="range" id="progress" min="0" max="100" value="0" step="1">
                       </div>
                       <div class="rhap_controls-section">
@@ -498,7 +817,7 @@
                               <rect x="13" y="4" width="5" height="16" rx="2" ry="2"/>
                             </svg>
                           </button>
-                          <div id="current-time-display" class="rhap_time"></div>
+                          <div id="current-time-display" class="rhap_time">0:00</div>
                         </div>
                       </div>
                     </div>
@@ -514,12 +833,39 @@
 
   <script>
     function animateTitle() {
-      const titles = ["🗡roulyy", "b🗡oulyy", "br🗡ulyy", "bro🗡lyy", "brou🗡yy", "broul🗡y", "brouly🗡"];
-      let index = 0;
-      setInterval(() => {
-        document.title = titles[index];
-        index = (index + 1) % titles.length;
-      }, 100);
+      // Rapid random-symbol title cycler (no words)
+      const glyphs = "!@#$%^&*()_+-=[]{};:'\\\",.<>/?`~|\\\\" +
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        "▁▂▃▄▅▆▇█▉▊▋▌▍▎▏◇◆○●◐◑◒◓◔◕★☆✦✧✩✪✫✬✭✮✯✰";
+      const maxLen = Math.max(12, Math.min(32, Math.floor(window.innerWidth / 30)));
+      let running = true;
+
+      function randChar() {
+        return glyphs.charAt(Math.floor(Math.random() * glyphs.length));
+      }
+
+      function makeTitle() {
+        let out = '';
+        for (let i = 0; i < maxLen; i++) out += randChar();
+        return out;
+      }
+
+      // update more frequently on larger screens; avoid blocking UI
+      const intervalMs = Math.max(30, 120 - Math.min(80, Math.floor(window.innerWidth / 20)));
+      const tid = setInterval(() => {
+        if (!running) return;
+        document.title = makeTitle();
+      }, intervalMs);
+
+      // expose a stop/resume via window for debugging if needed
+      window._animateTitleControl = {
+        stop() { running = false; },
+        start() { running = true; },
+        setSpeed(ms) {
+          clearInterval(tid);
+          // no perfect dynamic reschedule; reload to pick new speed
+        }
+      };
     }
 
     function rotateBio(event) {
@@ -665,11 +1011,11 @@
         updateOsintDays();
         setInterval(updateOsintDays, 86400000);
 
-        const audioPlayer = document.getElementById('audioPlayer');
-        const playButton = document.getElementById('playButton');
-        const pauseButton = document.getElementById('pauseButton');
-        const progress = document.getElementById('progress');
-        const currentTimeDisplay = document.getElementById('current-time-display');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const playButton = document.getElementById('playButton');
+  const pauseButton = document.getElementById('pauseButton');
+  const progress = document.getElementById('progress');
+  const currentTimeDisplay = document.getElementById('current-time-display');
 
         if (playButton) {
           playButton.addEventListener('click', () => {
@@ -695,47 +1041,140 @@
         }
 
         if (audioPlayer) {
+          // Обновление времени и прогресса
           audioPlayer.addEventListener('timeupdate', () => {
             if (audioPlayer && !isNaN(audioPlayer.duration)) {
               const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-              if (progress) progress.value = percentage;
-              if (currentTimeDisplay) currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+              if (progress) {
+                progress.value = percentage;
+                updateProgressStyle(percentage);
+                progress.style.direction = 'ltr';
+              }
+              if (currentTimeDisplay) currentTimeDisplay.textContent = `${formatTime(audioPlayer.currentTime)}`;
             }
           });
 
+          // Поддержка drag/touch для прогресса — не прерываем воспроизведение окончательно
+          let wasPlayingBeforeDrag = false;
           if (progress) {
+            const stopSeeking = () => {
+              if (audioPlayer && wasPlayingBeforeDrag) {
+                audioPlayer.play().then(() => {
+                  if (playButton) playButton.style.display = 'none';
+                  if (pauseButton) pauseButton.style.display = 'block';
+                }).catch(() => {});
+              }
+            };
+
             progress.addEventListener('input', () => {
               if (audioPlayer && audioPlayer.duration) {
                 const time = (progress.value / 100) * audioPlayer.duration;
-                audioPlayer.currentTime = time;
+                // показываем превью времени и обновляем стиль заполнения правильно
+                if (currentTimeDisplay) currentTimeDisplay.textContent = `${formatTime(time)}`;
+                updateProgressStyle(progress.value);
+                progress.style.direction = 'ltr';
               }
             });
 
             progress.addEventListener('mousedown', () => {
-              if (audioPlayer && !audioPlayer.paused) {
-                audioPlayer.pause();
-                if (pauseButton) pauseButton.style.display = 'none';
-                if (playButton) playButton.style.display = 'block';
+              if (audioPlayer) {
+                wasPlayingBeforeDrag = !audioPlayer.paused;
+                if (wasPlayingBeforeDrag) audioPlayer.pause();
               }
             });
 
             progress.addEventListener('mouseup', () => {
-              if (audioPlayer) {
-                audioPlayer.play().then(() => {
-                  if (playButton) playButton.style.display = 'none';
-                  if (pauseButton) pauseButton.style.display = 'block';
-                }).catch((error) => {
-                  console.error('Ошибка воспроизведения:', error);
-                  if (playButton) playButton.style.display = 'block';
-                  if (pauseButton) pauseButton.style.display = 'none';
-                });
+              if (audioPlayer && audioPlayer.duration) {
+                const time = (progress.value / 100) * audioPlayer.duration;
+                audioPlayer.currentTime = time;
               }
+              stopSeeking();
+            });
+
+            // touch support
+            progress.addEventListener('touchstart', () => {
+              if (audioPlayer) {
+                wasPlayingBeforeDrag = !audioPlayer.paused;
+                if (wasPlayingBeforeDrag) audioPlayer.pause();
+              }
+            });
+            progress.addEventListener('touchend', () => {
+              if (audioPlayer && audioPlayer.duration) {
+                const time = (progress.value / 100) * audioPlayer.duration;
+                audioPlayer.currentTime = time;
+              }
+              stopSeeking();
             });
 
             audioPlayer.addEventListener('loadedmetadata', () => {
               if (progress) progress.disabled = false;
+              if (currentTimeDisplay && audioPlayer.duration && !isNaN(audioPlayer.duration)) currentTimeDisplay.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
             });
           }
+        }
+
+        function updateProgressStyle(percentage) {
+          if (!progress) return;
+          const p = Math.max(0, Math.min(100, percentage));
+          // заполняющая часть красная слева->справа, остальное полупрозрачный фон
+          progress.style.background = `linear-gradient(to right, rgba(255,0,0,0.95) 0%, rgba(255,0,0,0.95) ${p}%, rgba(255,255,255,0.06) ${p}%, rgba(255,255,255,0.06) 100%)`;
+          progress.style.direction = 'ltr';
+        }
+
+          // Mute / volume controls
+          const muteButton = document.getElementById('muteButton');
+          const volumeControl = document.getElementById('volume');
+          if (audioPlayer && volumeControl) {
+            audioPlayer.volume = parseFloat(volumeControl.value) || 0.8;
+            volumeControl.addEventListener('input', (e) => {
+              const v = parseFloat(e.target.value);
+              audioPlayer.volume = v;
+              if (v === 0) {
+                if (muteButton) muteButton.classList.add('muted');
+              } else {
+                if (muteButton) muteButton.classList.remove('muted');
+              }
+            });
+          }
+          if (muteButton && audioPlayer) {
+            muteButton.addEventListener('click', () => {
+              audioPlayer.muted = !audioPlayer.muted;
+              const muteIcon = document.getElementById('muteIcon');
+              if (audioPlayer.muted) {
+                muteButton.classList.add('muted');
+                if (muteIcon) muteIcon.innerHTML = '<path d="M16.5 12c0-1.77-.77-3.36-1.98-4.45L12 10v4l2.52 2.45C15.73 15.36 16.5 13.77 16.5 12zM5 9v6h4l5 4V5L9 9H5z"/>';
+              } else {
+                muteButton.classList.remove('muted');
+                if (muteIcon) muteIcon.innerHTML = '<path d="M5 9v6h4l5 4V5L9 9H5z"/>';
+              }
+            });
+          }
+
+        // Форматирование и анимация просмотров
+        function formatNumber(n) {
+          return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+        function animateViews(el, target) {
+          let start = 0;
+          const duration = 900;
+          const startTime = performance.now();
+          function tick(now) {
+            const dt = now - startTime;
+            const progress = Math.min(1, dt / duration);
+            const eased = progress < 0.5 ? 2*progress*progress : -1 + (4 - 2*progress)*progress; // easing
+            const value = Math.floor(eased * target);
+            el.textContent = formatNumber(value);
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = formatNumber(target);
+          }
+          requestAnimationFrame(tick);
+        }
+
+        // Запускаем анимацию просмотров
+        const viewElInit = document.getElementById('viewCount');
+        if (viewElInit) {
+          const startVal = parseInt(viewElInit.textContent.replace(/\s+/g, '')) || 0;
+          animateViews(viewElInit, startVal);
         }
 
         function formatTime(seconds) {
